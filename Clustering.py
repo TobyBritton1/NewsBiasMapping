@@ -1,5 +1,4 @@
 from sklearn.cluster import DBSCAN
-import numpy as np
 
 max_dist = 0.5
 min_samples = 2
