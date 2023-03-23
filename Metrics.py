@@ -10,11 +10,11 @@ def getFactBased(text):
     quotes = text.count('"')
     length = len(text) + 1 # Laplace smoothing
     factBased = quotes / length
-    factBased = (factBased / 0.0075) - 1
+    factBased = factBased / 0.015
     if factBased > 1:
         factBased = 1
-    elif factBased < -1:
-        factBased = -1
+    elif factBased < 0:
+        factBased = 0
     return round(factBased,5), quotes, length
 
 def getSensationalized(text):
