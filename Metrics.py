@@ -2,20 +2,30 @@ from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
 def getSentiment(text):
     sia = SentimentIntensityAnalyzer()
-    sentiment = sia.polarity_scores(text)
+    sentiment = (sia.polarity_scores(text)['compound'] + 1) / 2
     return sentiment
 
-def getFactBased(text):
+def getQuoteBased(text):
     text = text.replace('“','"').replace('”','"')
     quotes = text.count('"')
     length = len(text) + 1 # Laplace smoothing
-    factBased = quotes / length
-    factBased = factBased / 0.015
-    if factBased > 1:
-        factBased = 1
-    elif factBased < 0:
-        factBased = 0
-    return round(factBased,5), quotes, length
+    quoteBased = quotes / length
+    quoteBased = quoteBased / 0.015
+    if quoteBased > 1:
+        quoteBased = 1
+    return round(quoteBased,5), quotes, length
+
+def getWordCountMetric(text, metricWords, scaling):
+    text = text.lower()
+    count = 0
+    for word in metricWords:
+        count += text.count(word)
+    length = len(text) + 1 # Laplace smoothing
+    metric = count / length
+    metric = metric / scaling
+    if metric > 1:
+        metric = 1
+    return round(metric,5)
 
 def getSensationalized(text):
     sensationalizedLanguage = [
@@ -70,8 +80,61 @@ def getSensationalized(text):
         'x-treme',
         'zany'
     ]
-    text = text.lower()
-    sensationalizedCount = 0
-    for word in sensationalizedLanguage:
-        sensationalizedCount += text.count(word)
-    return sensationalizedCount
+    score = getWordCountMetric(text, sensationalizedLanguage, 0.0085)
+    return score
+
+def getMudslinging(text):
+    mudslingingLanguage = [
+        'liar',
+        'cheat',
+        'fraud',
+        'phony',
+        'hypocrite',
+        'backstabber',
+        'schemer',
+        'connive',
+        'manipulator',
+        'deceive',
+        'charlatan',
+        'scoundrel',
+        'crook',
+        'swindle',
+        'thief',
+        'snake',
+        'rat',
+        'weasel',
+        'slimeball',
+        'grifter',
+        'greedy',
+        'selfish',
+        'narcissist',
+        'arrogant',
+        'entitled',
+        'egotistical',
+        'maniacal',
+        'vindictive',
+        'ruthless',
+        'heartless',
+        'cruel',
+        'malicious',
+        'mean-spirited',
+        'hateful',
+        'spiteful',
+        'toxic',
+        'poisonous',
+        'venomous',
+        'disgusting',
+        'vile',
+        'repulsive',
+        'abhorrent',
+        'revolting',
+        'obnoxious',
+        'offensive',
+        'insufferable',
+        'insidious',
+        'treacherous',
+        'despicable',
+        'deplorable'
+    ]
+    score = getWordCountMetric(text, mudslingingLanguage, 0.012)
+    return score
