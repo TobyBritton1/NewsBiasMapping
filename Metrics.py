@@ -14,7 +14,7 @@ def getQuoteBased(text):
     quoteBased = quoteBased / 0.015
     if quoteBased > 1:
         quoteBased = 1
-    return round(quoteBased,5), quotes, length
+    return round(quoteBased,5)
 
 def getWordCountMetric(text, metricWords, scaling):
     text = text.lower()
