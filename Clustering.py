@@ -11,7 +11,7 @@ def getBestDistance(metrics):
     max = 0
     bestSamples = 0
     bestDist = 0
-    for samples in range(2,6):
+    for samples in range(6,10):
         dist = 0.01
         while dist <= 0.5:
             labels = ClusterMetrics(metrics, dist, samples)
