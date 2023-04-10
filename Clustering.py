@@ -1,4 +1,4 @@
-from sklearn.cluster import DBSCAN
+from sklearn.cluster import AgglomerativeClustering, Birch, DBSCAN
 import numpy as np
 from collections import Counter
 
@@ -30,20 +30,14 @@ def getBestDistance(metrics):
     max = 0
     bestSamples = 0
     bestDist = 0
-    for samples in range(6,10):
+    for samples in range(4,10):
         dist = 0.01
         while dist <= 0.5:
             labels = ClusterMetrics(metrics, dist, samples)
-            total = 0
-            for i in range(len(Counter(labels)) - 1):
-                total += Counter(labels)[i]
-            mean = total / (len(Counter(labels)) - 1) # Average count per label
-            totalDiff = 0
-            for i in range(len(Counter(labels)) - 1):
-                totalDiff += abs(mean - Counter(labels)[i])
-            averageDiff = totalDiff / (len(Counter(labels)) - 1) # Average difference from mean per label
-            withGroup = 1 - (np.count_nonzero(labels == -1) / len(labels))
-            maximizeValue = withGroup * averageDiff # Trying to maximize the number of groups and minimize the number of articles without a group
+            labelsCounter = Counter(labels)
+            standardDeviation = np.std([labelsCounter[i] for i in range(len(labelsCounter) - 1)])
+            withGroup = 1 - (labelsCounter[-1] / len(labels))
+            maximizeValue = withGroup * (1 / standardDeviation) # Trying to maximize the number of articles with a group and minimize the sd of articles with a group
             if maximizeValue > max and withGroup >= 0.9: # Threshold to ensure over 90% of the articles must have a group
                 bestSamples = samples
                 bestDist = dist
@@ -54,4 +48,15 @@ def getBestDistance(metrics):
 def getBestLabels(metrics):
     samples, dist = getBestDistance(metrics)
     labels = ClusterMetrics(metrics,dist,samples)
+    return labels
+
+
+def BirchCluster(metrics, threshold=0.4, n_clusters=None):
+    clustering = Birch(n_clusters=n_clusters, threshold=threshold).fit(metrics)
+    labels = clustering.labels_
+    return labels
+
+def AgglomerativeCluster(metrics, threshold=5.5, n_clusters=None):
+    clustering = AgglomerativeClustering(n_clusters=n_clusters, distance_threshold=threshold, linkage='ward').fit(metrics)
+    labels = clustering.labels_
     return labels
