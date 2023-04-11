@@ -70,5 +70,7 @@ def NewsBiasClusteringFromMetrics(metrics, threshold=0.4, n_clusters=None):
             if labels[j] == i:
                 pc1.append(data_pca.iloc[j]['PC1'])
                 pc2.append(data_pca.iloc[j]['PC2'])
-        plt.scatter(pc1,pc2,s=5) 
+        plt.scatter(pc1,pc2,s=5)
+    plt.xlim(-8, 10)
+    plt.ylim(-5, 15)
     plt.show()
