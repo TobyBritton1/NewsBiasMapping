@@ -36,17 +36,20 @@ def getSensationalized(text):
         'epic',
         'mind-blowing',
         'unbelievable',
-        'stunning',
-        'scandalous',
+        'stun',
+        'scandal',
         'sensational',
         'incredible',
         'jaw-dropping',
         'unprecedented',
         'apocalypse',
+        'apocalyptic'
         'catastrophic',
+        'catastrophy'
         'devastating',
         'heartbreaking',
         'horrific',
+        'horrify'
         'intense',
         'massive',
         'monstrous',
@@ -63,7 +66,7 @@ def getSensationalized(text):
         'chaotic',
         'deadly',
         'doom',
-        'eerie',
+        'raucous',
         'frenzy',
         'gripping',
         'insane',
@@ -78,8 +81,8 @@ def getSensationalized(text):
         'unhinged',
         'vicious',
         'widespread',
-        'x-treme',
-        'zany'
+        'blasted',
+        'scream'
     ]
     score = getWordCountMetric(text, sensationalizedLanguage, 0.0085)
     return score
