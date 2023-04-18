@@ -230,10 +230,10 @@ def getInformal(text):
             for word in personalPronouns:
                 if tokenizedText[i].lower() == word:
                     personalPronounsCount += 1
-    sentenceLength = (wordCount / sentenceCount) / 50
-    if sentenceLength > 1:
-        sentenceLength = 1
-    wordLength = ((characterCount / wordCount) - 3) / 3
+    sentenceLength = 1 - ((wordCount / sentenceCount) / 20)
+    if sentenceLength < 0:
+        sentenceLength = 0
+    wordLength = 1 - (((characterCount / wordCount) - 2.5) / 3.5)
     if wordLength > 1:
         wordLength = 1
     elif wordLength < 0:
@@ -242,5 +242,5 @@ def getInformal(text):
     personalPronouns = (personalPronounsCount / length) / 0.03
     if personalPronouns > 1:
         personalPronouns = 1
-    score = (3*personalPronouns+2*sentenceLength+wordLength)/6
+    score = (3*personalPronouns+2*sentenceLength+wordLength) / 6
     return round(score,5)
