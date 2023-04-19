@@ -79,7 +79,6 @@ def NewsBiasClusteringFromMetrics(metrics, threshold=0.32, n_clusters=None):
     data['label'] = labels
 
     means = data.groupby(['label']).mean()
-    print(means)
 
     dominantMetrics = []
     for i in range(len(Counter(labels))):
