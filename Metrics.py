@@ -7,11 +7,11 @@ def getSentiment(text):
     return sentiment
 
 def getQuoteBased(text):
-    text = text.replace('“','"').replace('”','"')
+    text = text.replace('“','"').replace('”','"').replace('\' ','"').replace(' \'','"').replace('’ ','"').replace(' ‘','"')
     quotes = text.count('"')
     length = len(text) + 1 # Laplace smoothing
     quoteBased = quotes / length
-    quoteBased = quoteBased / 0.015
+    quoteBased = quoteBased / 0.025
     if quoteBased > 1:
         quoteBased = 1
     return round(quoteBased,5)
