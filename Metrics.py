@@ -28,8 +28,8 @@ def getWordCountMetric(text, metricWords, scaling):
         metric = 1
     return round(metric,5)
 
-def getSensationalized(text):
-    sensationalizedLanguage = [
+def getSensationalised(text):
+    sensationalisedLanguage = [
         'shock',
         'terrify',
         'explosive',
@@ -84,7 +84,7 @@ def getSensationalized(text):
         'blasted',
         'scream'
     ]
-    score = getWordCountMetric(text, sensationalizedLanguage, 0.0085)
+    score = getWordCountMetric(text, sensationalisedLanguage, 0.0085)
     return score
 
 def getMudslinging(text):

@@ -5,7 +5,7 @@ from collections import Counter
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 
-from Metrics import getSentiment, getQuoteBased, getSensationalized, getMudslinging, getSpin, getInformal
+from Metrics import getSentiment, getQuoteBased, getSensationalised, getMudslinging, getSpin, getInformal
 from Clustering import BirchCluster
 
 def getMetrics(articles):
@@ -14,11 +14,11 @@ def getMetrics(articles):
     for i in range(len(articles)):
         sentiment = getSentiment(articles.at[i,'body'])
         quoteBased = getQuoteBased(articles.at[i,'body'])
-        sensationalized = getSensationalized(articles.at[i,'body'])
+        sensationalised = getSensationalised(articles.at[i,'body'])
         mudslinging = getMudslinging(articles.at[i,'body'])
         spin = getSpin(articles.at[i,'body'])
         informal = getInformal(articles.at[i,'body'])
-        metrics.append([sentiment, quoteBased, sensationalized, mudslinging, spin, informal])
+        metrics.append([sentiment, quoteBased, sensationalised, mudslinging, spin, informal])
     return metrics
 
 def getWord(value):
@@ -35,9 +35,9 @@ def getWord(value):
 
 def NewsBiasClusteringFromMetrics(metrics, threshold=0.32, n_clusters=None):
     # Reduce Data Dimensions
-    data = pd.DataFrame(metrics,columns=['sentiment','quoteBased','sensationalized','mudslinging','spin','informal'])
+    data = pd.DataFrame(metrics,columns=['sentiment','quoteBased','sensationalised','mudslinging','spin','informal'])
     scalar = StandardScaler()
-    scaledData = pd.DataFrame(scalar.fit_transform(data),columns=['sentiment','quoteBased','sensationalized','mudslinging','spin','informal']) #scaling the data
+    scaledData = pd.DataFrame(scalar.fit_transform(data),columns=['sentiment','quoteBased','sensationalised','mudslinging','spin','informal']) #scaling the data
     # sns.heatmap(scaledData.corr())
     # plt.show()
     pca = PCA(n_components = 2)
@@ -52,7 +52,7 @@ def NewsBiasClusteringFromMetrics(metrics, threshold=0.32, n_clusters=None):
     print(Counter(labels))
 
     # Get Dominant Metrics For Each Label
-    data = pd.DataFrame(metrics,columns=['sentiment','quoteBased','sensationalized','mudslinging','spin','informal'])
+    data = pd.DataFrame(metrics,columns=['sentiment','quoteBased','sensationalised','mudslinging','spin','informal'])
     data['label'] = labels
     means = data.groupby(['label']).mean()
     dominantMetrics = []
